@@ -1,0 +1,82 @@
+{
+  "name": "MyCVBuilder - Professional CV Yaratish Platformasi",
+  "short_name": "MyCVBuilder",
+  "description": "Professional CV yarating, real-time preview ko'ring va PDF formatda yuklab oling",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3B82F6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "uz",
+  "dir": "ltr",
+  "categories": ["productivity", "business", "education"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.svg",
+      "sizes": "48x48",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "MyCVBuilder Desktop View"
+    },
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "MyCVBuilder Mobile View"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Yangi CV yaratish",
+      "short_name": "Yangi CV",
+      "description": "Yangi CV yaratishni boshlash",
+      "url": "/?action=new",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "32x32"
+        }
+      ]
+    },
+    {
+      "name": "CV yuklab olish",
+      "short_name": "PDF Export",
+      "description": "CV ni PDF formatda yuklab olish",
+      "url": "/?action=download",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "32x32"
+        }
+      ]
+    }
+  ]
+}
