@@ -29,7 +29,7 @@
 - **Vite** - Build tool
 - **Tailwind CSS v3** - Styling va responsive design
 - **Zustand** - State management
-- **html2pdf.js** - PDF export
+- **jsPDF** + **html2canvas** - Yuqori sifatli PDF export
 - **Lucide React** - Icons
 - **Google Fonts** - Inter, Poppins, JetBrains Mono
 

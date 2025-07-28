@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Download, CheckCircle, AlertCircle } from "lucide-react";
 import { LoadingSpinner } from "./Accessibility/LoadingSpinner";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 export const DownloadButton = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,30 +21,111 @@ export const DownloadButton = () => {
       // Scroll to top for better PDF capture
       window.scrollTo({ top: 0, behavior: "smooth" });
 
-      // Wait a bit for scroll to complete
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Wait a bit for scroll to complete and any animations to finish
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      const html2pdf = (await import("html2pdf.js")).default;
+      // Temporarily hide any elements that shouldn't be in PDF
+      const elementsToHide = cvPreview.querySelectorAll(
+        '.no-print, [data-no-pdf="true"]'
+      );
+      const originalDisplays: string[] = [];
 
-      const opt = {
-        margin: [10, 10, 10, 10],
-        filename: "my-cv.pdf",
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: {
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
-          scrollY: 0,
-          scrollX: 0,
+      elementsToHide.forEach((el) => {
+        const htmlEl = el as HTMLElement;
+        originalDisplays.push(htmlEl.style.display);
+        htmlEl.style.display = "none";
+      });
+
+      // Convert HTML to canvas with high quality settings
+      const canvas = await html2canvas(cvPreview, {
+        scale: 3, // Even higher scale for better quality
+        useCORS: true,
+        allowTaint: true,
+        scrollX: 0,
+        scrollY: 0,
+        width: cvPreview.scrollWidth,
+        height: cvPreview.scrollHeight,
+        backgroundColor: "#ffffff", // Ensure white background
+        logging: false, // Disable logging for production
+        imageTimeout: 15000, // 15 seconds timeout for images
+        removeContainer: true, // Remove temporary container
+        foreignObjectRendering: false, // Better compatibility
+        ignoreElements: (element) => {
+          // Ignore elements that shouldn't be in PDF
+          const htmlEl = element as HTMLElement;
+          return (
+            element.classList.contains("no-print") ||
+            htmlEl.style.display === "none" ||
+            element.getAttribute("data-no-pdf") === "true"
+          );
         },
-        jsPDF: {
-          unit: "mm",
-          format: "a4",
-          orientation: "portrait",
+        onclone: (clonedDoc) => {
+          // Ensure fonts are loaded in cloned document
+          const clonedElement = clonedDoc.getElementById("cv-preview");
+          if (clonedElement) {
+            // Force font loading
+            clonedElement.style.fontFamily = "Inter, system-ui, sans-serif";
+            clonedElement.style.fontSize = "14px";
+          }
         },
-      };
+      });
 
-      await html2pdf().set(opt).from(cvPreview).save();
+      // Restore hidden elements
+      elementsToHide.forEach((el, index) => {
+        const htmlEl = el as HTMLElement;
+        htmlEl.style.display = originalDisplays[index];
+      });
+
+      // Calculate PDF dimensions
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      // Create PDF with better settings
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+        compress: true, // Enable compression
+        precision: 16, // Higher precision
+      });
+
+      let heightLeft = imgHeight;
+      let position = 0; // Top of the page
+
+      // Add first page
+      pdf.addImage(
+        canvas,
+        "JPEG",
+        0,
+        position,
+        imgWidth,
+        imgHeight,
+        undefined,
+        "FAST"
+      );
+      heightLeft -= pageHeight;
+
+      // Add additional pages if content is longer than one page
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(
+          canvas,
+          "JPEG",
+          0,
+          position,
+          imgWidth,
+          imgHeight,
+          undefined,
+          "FAST"
+        );
+        heightLeft -= pageHeight;
+      }
+
+      // Save the PDF with timestamp
+      const timestamp = new Date().toISOString().slice(0, 10);
+      pdf.save(`my-cv-${timestamp}.pdf`);
 
       setStatus("success");
       setTimeout(() => setStatus("idle"), 3000);
