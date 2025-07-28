@@ -34,6 +34,7 @@ interface CVStore {
   removeCertificate: (index: number) => void;
   setTemplate: (template: TemplateType) => void;
   resetData: () => void;
+  importData: (data: CVData) => void;
 }
 
 const initialData: CVData = {
@@ -246,6 +247,8 @@ export const useFormData = create<CVStore>()(
       setTemplate: (template) => set({ template }),
 
       resetData: () => set({ data: initialData }),
+
+      importData: (data) => set({ data }),
     }),
     {
       name: "cv-builder-storage",

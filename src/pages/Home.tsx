@@ -10,8 +10,11 @@ import { CertificatesSection } from "../components/FormSections/CertificatesSect
 import { CVPreview } from "../components/CVPreview/CVPreview";
 import { TemplateSelector } from "../components/TemplateSelector";
 import { DownloadButton } from "../components/DownloadButton";
+import { ExportButton } from "../components/ExportImport/ExportImportButton";
 import { SkipToContent } from "../components/Accessibility/SkipToContent";
 import { ThemeToggle } from "../components/Accessibility/ThemeToggle";
+import { Toaster } from "../components/UI/Toaster";
+import { useToast } from "../hooks/useToast";
 
 import { useFormData } from "../hooks/useFormData";
 import { RotateCcw, Heart, Github, Menu, X, Edit3, Eye } from "lucide-react";
@@ -19,6 +22,7 @@ import { useState } from "react";
 
 export const Home = () => {
   const { resetData } = useFormData();
+  const { toasts, removeToast, showSuccess, showError } = useToast();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"form" | "preview">("form");
 
@@ -39,6 +43,7 @@ export const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <SkipToContent />
+      <Toaster toasts={toasts} removeToast={removeToast} />
 
       {/* Header */}
       <header
@@ -99,6 +104,7 @@ export const Home = () => {
                 <RotateCcw className="w-4 h-4" />
                 <span className="hidden sm:inline">Tozalash</span>
               </button>
+              <ExportButton onSuccess={showSuccess} onError={showError} />
               <DownloadButton />
             </nav>
 
@@ -153,6 +159,7 @@ export const Home = () => {
                   <RotateCcw className="w-4 h-4" />
                   Tozalash
                 </button>
+                <ExportButton onSuccess={showSuccess} onError={showError} />
                 <DownloadButton />
               </div>
             </nav>
