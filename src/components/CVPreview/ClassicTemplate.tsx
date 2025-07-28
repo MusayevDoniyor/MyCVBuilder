@@ -126,14 +126,14 @@ export const ClassicTemplate = ({ data }: ClassicTemplateProps) => {
 
       {/* About Me */}
       {aboutMe && (
-        <div className="p-8 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+        <div className="p-3 sm:p-6 md:p-8 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-1 h-6 bg-blue-600 rounded-full"></div>
             <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
               O'zim haqida
             </h3>
           </div>
-          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed break-words whitespace-pre-line overflow-hidden">
             {aboutMe}
           </p>
         </div>

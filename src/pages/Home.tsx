@@ -224,34 +224,38 @@ export const Home = () => {
         className="bg-white border-t border-gray-200 dark:bg-gray-800 dark:border-gray-700 mt-12"
         role="contentinfo"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 mb-4">
               <img
                 src="/logo.svg"
                 alt="MyCVBuilder logo"
-                className="w-8 h-8"
+                className="w-6 h-6 sm:w-8 sm:h-8"
                 width="32"
                 height="32"
               />
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white">
                 MyCVBuilder
               </h3>
             </div>
 
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4">
               Professional CV yaratish uchun eng yaxshi platforma
             </p>
 
-            <div className="flex items-center justify-center gap-6 text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">
               <span>Barcha ma'lumotlar brauzeringizda saqlanadi</span>
-              <span aria-hidden="true">•</span>
+              <span className="hidden sm:inline" aria-hidden="true">
+                •
+              </span>
               <span>Real-time preview</span>
-              <span aria-hidden="true">•</span>
+              <span className="hidden sm:inline" aria-hidden="true">
+                •
+              </span>
               <span>PDF export</span>
             </div>
 
-            <div className="flex items-center justify-center gap-4 text-sm">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-xs sm:text-sm">
               <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
                 <span>Dasturchi:</span>
                 <a
@@ -264,7 +268,7 @@ export const Home = () => {
                 </a>
               </div>
               <span
-                className="text-gray-300 dark:text-gray-600"
+                className="hidden sm:inline text-gray-300 dark:text-gray-600"
                 aria-hidden="true"
               >
                 |
@@ -276,11 +280,11 @@ export const Home = () => {
                 className="flex items-center gap-1 text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400 transition-colors"
                 aria-label="GitHub sahifasini ochish"
               >
-                <Github className="w-4 h-4" />
+                <Github className="w-3 h-3 sm:w-4 sm:h-4" />
                 GitHub
               </a>
               <span
-                className="text-gray-300 dark:text-gray-600"
+                className="hidden sm:inline text-gray-300 dark:text-gray-600"
                 aria-hidden="true"
               >
                 |
@@ -288,7 +292,7 @@ export const Home = () => {
               <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
                 <span>Made with</span>
                 <Heart
-                  className="w-4 h-4 text-red-500 fill-current"
+                  className="w-3 h-3 sm:w-4 sm:h-4 text-red-500 fill-current"
                   aria-hidden="true"
                 />
                 <span>in Uzbekistan</span>

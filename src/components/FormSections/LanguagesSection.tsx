@@ -1,30 +1,21 @@
 import { useState } from "react";
 import { useFormData } from "../../hooks/useFormData";
 import { AddButton } from "../AddButton";
-import { Languages, X } from "lucide-react";
+import { X, Globe } from "lucide-react";
+import { EditButton } from "../EditButton";
+import type { Language } from "../../types";
 
 export const LanguagesSection = () => {
-  const { data, addLanguage, removeLanguage } = useFormData();
-  const [newLanguage, setNewLanguage] = useState({
+  const { data, addLanguage, removeLanguage, updateLanguage } = useFormData();
+  const [newLanguage, setNewLanguage] = useState<Language>({
     name: "",
-    proficiency: "Intermediate" as const,
+    proficiency: "Intermediate",
   });
-
-  const handleAddLanguage = () => {
-    if (newLanguage.name.trim()) {
-      addLanguage({ ...newLanguage });
-      setNewLanguage({
-        name: "",
-        proficiency: "Intermediate",
-      });
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleAddLanguage();
-    }
-  };
+  const [showForm, setShowForm] = useState(false);
+  const [editingLanguage, setEditingLanguage] = useState<{
+    index: number;
+    language: Language;
+  } | null>(null);
 
   const getProficiencyColor = (proficiency: string) => {
     switch (proficiency) {
@@ -41,83 +32,167 @@ export const LanguagesSection = () => {
     }
   };
 
-  return (
-    <div className="card p-6 animate-fade-in">
-      <div className="flex items-center gap-2 mb-4">
-        <Languages className="w-5 h-5 text-primary-600 dark:text-primary-400" />
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
-          Tillar
-        </h3>
-      </div>
+  const handleCancel = () => {
+    setShowForm(false);
+    setEditingLanguage(null);
+    setNewLanguage({ name: "", proficiency: "Intermediate" });
+  };
 
-      {/* Add new language */}
-      <div className="flex gap-2 mb-4">
-        <input
-          type="text"
-          value={newLanguage.name}
-          onChange={(e) =>
-            setNewLanguage({ ...newLanguage, name: e.target.value })
-          }
-          onKeyPress={handleKeyPress}
-          placeholder="Masalan: Ingliz tili"
-          className="form-input flex-1"
-        />
-        <select
-          value={newLanguage.proficiency}
-          onChange={(e) =>
-            setNewLanguage({
-              ...newLanguage,
-              proficiency: e.target.value as any,
-            })
-          }
-          className="form-input w-40"
-        >
-          <option value="Beginner">Boshlang'ich</option>
-          <option value="Intermediate">O'rta</option>
-          <option value="Advanced">Yuqori</option>
-          <option value="Fluent">Erkin</option>
-        </select>
+  const handleUpdateLanguage = () => {
+    if (editingLanguage && editingLanguage.language) {
+      updateLanguage(editingLanguage.index, {
+        name: newLanguage.name,
+        proficiency: newLanguage.proficiency,
+      });
+      setShowForm(false);
+      setEditingLanguage(null);
+      setNewLanguage({ name: "", proficiency: "Intermediate" });
+    }
+  };
+
+  return (
+    <div className="card p-3 sm:p-6 animate-fade-in">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <Globe className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
+            Tillar
+          </h3>
+        </div>
         <AddButton
-          onClick={handleAddLanguage}
-          disabled={!newLanguage.name.trim()}
+          onClick={() => setShowForm(true)}
+          className="w-auto text-sm py-2 px-3 min-h-10"
         >
           Qo'shish
         </AddButton>
       </div>
 
-      {/* Languages list */}
-      <div className="space-y-3">
-        {data.languages.length === 0 ? (
-          <p className="text-gray-500 dark:text-gray-400 text-sm">
-            Hali til qo'shilmagan
-          </p>
-        ) : (
-          data.languages.map((language, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600"
+      {/* Add/Edit language form */}
+      {showForm && (
+        <div className="mb-6 p-2 sm:p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+          <div className="flex flex-col gap-2 mb-4">
+            <h4 className="font-semibold text-gray-800 dark:text-gray-100">
+              {editingLanguage ? "Tilni tahrirlash" : "Yangi til qo'shish"}
+            </h4>
+            <button
+              className="ml-auto text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-sm"
+              onClick={handleCancel}
+              aria-label="Bekor qilish"
             >
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-gray-800 dark:text-gray-200">
-                  {language.name}
-                </span>
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          <div className="flex flex-col gap-2">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Til nomi *
+              </label>
+              <input
+                type="text"
+                value={newLanguage.name}
+                onChange={(e) =>
+                  setNewLanguage({ ...newLanguage, name: e.target.value })
+                }
+                placeholder="Masalan: Ingliz tili"
+                className="form-input w-full text-sm"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Daraja *
+              </label>
+              <select
+                value={newLanguage.proficiency}
+                onChange={(e) =>
+                  setNewLanguage({
+                    ...newLanguage,
+                    proficiency: e.target.value as Language["proficiency"],
+                  })
+                }
+                className="form-input w-full text-sm"
+                required
+              >
+                <option value="Beginner">Boshlang'ich</option>
+                <option value="Intermediate">O'rta</option>
+                <option value="Advanced">Yuqori</option>
+                <option value="Fluent">Erkin</option>
+              </select>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2 mt-2">
+              <button
+                className="btn-primary w-full text-sm py-2 px-3 min-h-10"
+                onClick={
+                  editingLanguage
+                    ? handleUpdateLanguage
+                    : () => {
+                        if (
+                          newLanguage.name.trim() &&
+                          newLanguage.proficiency.trim()
+                        ) {
+                          addLanguage({ ...newLanguage });
+                          setNewLanguage({
+                            name: "",
+                            proficiency: "Intermediate",
+                          });
+                          setShowForm(false);
+                        }
+                      }
+                }
+              >
+                {editingLanguage ? "Yangilash" : "Qo'shish"}
+              </button>
+              <button
+                className="btn-secondary w-full text-sm py-2 px-3 min-h-10"
+                onClick={handleCancel}
+              >
+                Bekor qilish
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Language list */}
+      <div className="flex flex-col gap-2">
+        {data.languages.map((lang, idx) => (
+          <div
+            key={idx}
+            className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 p-2 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-x-auto"
+          >
+            <div className="flex-1 min-w-0">
+              <div className="font-semibold text-gray-800 dark:text-gray-100 break-words">
+                {lang.name}
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400 break-words">
                 <span
                   className={`px-2 py-1 rounded-full text-xs font-medium ${getProficiencyColor(
-                    language.proficiency
+                    lang.proficiency
                   )}`}
                 >
-                  {language.proficiency}
+                  {lang.proficiency}
                 </span>
               </div>
+            </div>
+            <div className="flex gap-1">
+              <EditButton
+                onClick={() => {
+                  setEditingLanguage({ index: idx, language: lang });
+                  setShowForm(true);
+                }}
+                size="sm"
+                className="w-8 h-8"
+              />
               <button
-                onClick={() => removeLanguage(index)}
-                className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 p-1"
+                onClick={() => removeLanguage(idx)}
+                className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 p-1 w-8 h-8"
+                aria-label="O'chirish"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
-          ))
-        )}
+          </div>
+        ))}
       </div>
     </div>
   );

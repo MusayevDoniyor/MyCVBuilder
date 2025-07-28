@@ -2,6 +2,31 @@
   "name": "mycvbuilder",
   "private": true,
   "version": "0.0.0",
+  "description": "Professional CV yaratish platformasi - real-time preview, dark mode va PDF export bilan. 6 ta shablon, o'zbek tilida, bepul.",
+  "author": "Musayev Doniyor <doniyormusayev2009@gmail.com> (https://github.com/MusayevDoniyor)",
+  "keywords": [
+    "cv",
+    "resume",
+    "cv builder",
+    "resume builder",
+    "cv yaratish",
+    "pdf export",
+    "o'zbek cv",
+    "professional cv",
+    "real-time preview",
+    "react",
+    "typescript",
+    "tailwindcss"
+  ],
+  "homepage": "https://my-cv-builder-inky.vercel.app/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MusayevDoniyor/MyCVBuilder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MusayevDoniyor/MyCVBuilder/issues"
+  },
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",

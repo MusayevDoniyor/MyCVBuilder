@@ -127,14 +127,14 @@ export const ModernTemplate = ({ data }: ModernTemplateProps) => {
 
       {/* About Me */}
       {aboutMe && (
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-3 sm:p-6 md:p-8 mb-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-2 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
             <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
               O'zim haqida
             </h3>
           </div>
-          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed break-words whitespace-pre-line overflow-hidden">
             {aboutMe}
           </p>
         </div>

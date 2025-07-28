@@ -100,7 +100,7 @@ export const MinimalTemplate = ({ data }: MinimalTemplateProps) => {
           <h3 className="text-lg font-bold mb-3 border-b border-black dark:border-gray-300 pb-1">
             O'ZIM HAQIDA
           </h3>
-          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed break-words whitespace-pre-line overflow-hidden">
             {aboutMe}
           </p>
         </div>

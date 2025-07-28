@@ -24,6 +24,7 @@ interface CVStore {
   updateEducation: (index: number, education: CVData["education"][0]) => void;
   removeEducation: (index: number) => void;
   addLanguage: (language: CVData["languages"][0]) => void;
+  updateLanguage: (index: number, language: CVData["languages"][0]) => void;
   removeLanguage: (index: number) => void;
   addCertificate: (certificate: CVData["certificates"][0]) => void;
   updateCertificate: (
@@ -195,6 +196,16 @@ export const useFormData = create<CVStore>()(
           data: {
             ...state.data,
             languages: [...state.data.languages, language],
+          },
+        })),
+
+      updateLanguage: (index, language) =>
+        set((state) => ({
+          data: {
+            ...state.data,
+            languages: state.data.languages.map((l, i) =>
+              i === index ? language : l
+            ),
           },
         })),
 

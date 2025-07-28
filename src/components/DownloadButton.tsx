@@ -81,13 +81,13 @@ export const DownloadButton = () => {
       const pageHeight = 297; // A4 height in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      // Create PDF with better settings
+      // Create PDF with proper styling
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
         format: "a4",
-        compress: true, // Enable compression
-        precision: 16, // Higher precision
+        compress: true,
+        precision: 16,
       });
 
       let heightLeft = imgHeight;
@@ -175,7 +175,7 @@ export const DownloadButton = () => {
   };
 
   const getButtonClasses = () => {
-    let baseClasses =
+    const baseClasses =
       "btn-primary flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed";
 
     if (status === "success") {

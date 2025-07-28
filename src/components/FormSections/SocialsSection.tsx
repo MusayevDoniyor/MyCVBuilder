@@ -12,10 +12,12 @@ export const SocialsSection = () => {
   };
 
   return (
-    <div className="card p-6 animate-fade-in">
-      <div className="section-title">
+    <div className="card p-3 sm:p-6 animate-fade-in">
+      <div className="flex items-center gap-2 mb-4">
         <Share2 className="w-5 h-5 text-primary-600 dark:text-primary-400" />
-        <span>Ijtimoiy tarmoqlar</span>
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
+          Ijtimoiy tarmoqlar
+        </h3>
       </div>
 
       <div className="space-y-4">
@@ -31,7 +33,7 @@ export const SocialsSection = () => {
               value={data.socials.linkedin}
               onChange={(e) => handleInputChange("linkedin", e.target.value)}
               placeholder="https://linkedin.com/in/username"
-              className="form-input pl-12"
+              className="form-input pl-12 w-full text-sm"
             />
           </div>
         </div>
@@ -48,15 +50,15 @@ export const SocialsSection = () => {
               value={data.socials.github}
               onChange={(e) => handleInputChange("github", e.target.value)}
               placeholder="https://github.com/username"
-              className="form-input pl-12"
+              className="form-input pl-12 w-full text-sm"
             />
           </div>
         </div>
 
-        {/* Personal Website */}
+        {/* Website */}
         <div className="group">
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-            Shaxsiy veb-sayt
+            Website
           </label>
           <div className="relative">
             <Globe className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors" />
@@ -64,8 +66,8 @@ export const SocialsSection = () => {
               type="url"
               value={data.socials.website}
               onChange={(e) => handleInputChange("website", e.target.value)}
-              placeholder="https://example.com"
-              className="form-input pl-12"
+              placeholder="https://mycvbuilder.uz"
+              className="form-input pl-12 w-full text-sm"
             />
           </div>
         </div>
@@ -82,7 +84,7 @@ export const SocialsSection = () => {
               value={data.socials.telegram}
               onChange={(e) => handleInputChange("telegram", e.target.value)}
               placeholder="@username yoki +998901234567"
-              className="form-input pl-12"
+              className="form-input pl-12 w-full text-sm"
             />
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
@@ -91,7 +93,7 @@ export const SocialsSection = () => {
         </div>
       </div>
 
-      <div className="mt-4 p-3 bg-primary-50 dark:bg-primary-900/20 rounded-lg border border-primary-200 dark:border-primary-800">
+      <div className="mt-4 p-2 sm:p-3 bg-primary-50 dark:bg-primary-900/20 rounded-lg border border-primary-200 dark:border-primary-800">
         <p className="text-sm text-primary-700 dark:text-primary-300">
           💡 Ijtimoiy tarmoq havolalari CV'ingizda professional ko'rinishda
           ko'rsatiladi

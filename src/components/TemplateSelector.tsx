@@ -1,5 +1,6 @@
 import { useFormData } from "../hooks/useFormData";
 import { Palette, Sparkles, Briefcase, Crown, Zap, Star } from "lucide-react";
+import type { TemplateType } from "../types";
 
 export const TemplateSelector = () => {
   const { template, setTemplate } = useFormData();
@@ -67,6 +68,10 @@ export const TemplateSelector = () => {
     },
   ];
 
+  const handleTemplateChange = (template: TemplateType) => {
+    setTemplate(template);
+  };
+
   return (
     <div className="card p-6 animate-fade-in">
       <div className="section-title">
@@ -78,7 +83,7 @@ export const TemplateSelector = () => {
         {templates.map((t) => (
           <button
             key={t.id}
-            onClick={() => setTemplate(t.id as any)}
+            onClick={() => handleTemplateChange(t.id as TemplateType)}
             className={`p-4 rounded-xl border-2 transition-all duration-300 hover:scale-105 ${
               template === t.id
                 ? `${t.color} shadow-lg`

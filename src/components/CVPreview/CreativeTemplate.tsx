@@ -148,12 +148,14 @@ export const CreativeTemplate = ({ data }: CreativeTemplateProps) => {
 
       {/* About Me */}
       {aboutMe && (
-        <div className="p-8 bg-gradient-to-r from-gray-50 to-blue-50">
+        <div className="p-3 sm:p-6 md:p-8 bg-gradient-to-r from-gray-50 to-blue-50">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-2 h-8 bg-gradient-to-b from-primary-500 to-blue-500 rounded-full"></div>
             <h3 className="text-2xl font-bold text-gray-900">O'zim haqida</h3>
           </div>
-          <p className="text-gray-700 leading-relaxed text-lg">{aboutMe}</p>
+          <p className="text-gray-700 leading-relaxed text-lg break-words whitespace-pre-line overflow-hidden">
+            {aboutMe}
+          </p>
         </div>
       )}
 

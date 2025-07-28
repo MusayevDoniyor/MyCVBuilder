@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useFormData } from "../../hooks/useFormData";
 import { AddButton } from "../AddButton";
 import { EditButton } from "../EditButton";
-import { FolderOpen, X, ExternalLink, Github } from "lucide-react";
+import { FolderOpen, X } from "lucide-react";
+import type { CVData } from "../../types";
 
 export const ProjectsSection = () => {
   const { data, addProject, removeProject, updateProject } = useFormData();
@@ -16,22 +17,8 @@ export const ProjectsSection = () => {
   });
   const [editingProject, setEditingProject] = useState<{
     index: number;
-    project: any;
+    project: CVData["projects"][0];
   } | null>(null);
-
-  const handleAddProject = () => {
-    if (newProject.name.trim() && newProject.description.trim()) {
-      addProject({ ...newProject });
-      setNewProject({
-        name: "",
-        description: "",
-        techStack: "",
-        githubLink: "",
-        liveDemoLink: "",
-      });
-      setShowForm(false);
-    }
-  };
 
   const handleCancel = () => {
     setNewProject({
@@ -72,7 +59,7 @@ export const ProjectsSection = () => {
   }, [editingProject]);
 
   return (
-    <div className="card p-6 animate-fade-in">
+    <div className="card p-3 sm:p-6 animate-fade-in">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <FolderOpen className="w-5 h-5 text-primary-600 dark:text-primary-400" />
@@ -80,46 +67,31 @@ export const ProjectsSection = () => {
             Loyihalar
           </h3>
         </div>
-        <AddButton onClick={() => setShowForm(true)}>Qo'shish</AddButton>
+
+        <AddButton
+          onClick={() => setShowForm(true)}
+          className="w-auto text-sm py-2 px-3 min-h-10"
+        >
+          Qo'shish
+        </AddButton>
       </div>
 
       {/* Add/Edit project form */}
       {showForm && (
-        <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
-          <div className="flex items-center justify-between mb-4">
+        <div className="mb-6 p-2 sm:p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+          <div className="flex flex-col gap-2 mb-4">
             <h4 className="font-semibold text-gray-800 dark:text-gray-100">
               {editingProject ? "Loyihani tahrirlash" : "Yangi loyiha qo'shish"}
             </h4>
             <button
-              onClick={() => {
-                setShowForm(false);
-                setEditingProject(null);
-                setNewProject({
-                  name: "",
-                  description: "",
-                  techStack: "",
-                  githubLink: "",
-                  liveDemoLink: "",
-                });
-              }}
-              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+              className="ml-auto text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-sm"
+              onClick={handleCancel}
+              aria-label="Bekor qilish"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <X className="w-5 h-5" />
             </button>
           </div>
-          <div className="space-y-4">
+          <div className="flex flex-col gap-2">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Loyiha nomi *
@@ -130,11 +102,11 @@ export const ProjectsSection = () => {
                 onChange={(e) =>
                   setNewProject({ ...newProject, name: e.target.value })
                 }
-                placeholder="Masalan: E-commerce Platform"
-                className="form-input"
+                placeholder="Masalan: MyCVBuilder"
+                className="form-input w-full text-sm"
+                required
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Tavsif *
@@ -145,10 +117,10 @@ export const ProjectsSection = () => {
                   setNewProject({ ...newProject, description: e.target.value })
                 }
                 placeholder="Loyiha haqida qisqacha ma'lumot..."
-                className="form-textarea h-20"
+                className="form-textarea w-full text-sm h-20"
+                required
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Texnologiyalar
@@ -160,12 +132,11 @@ export const ProjectsSection = () => {
                   setNewProject({ ...newProject, techStack: e.target.value })
                 }
                 placeholder="React, Node.js, PostgreSQL..."
-                className="form-input"
+                className="form-input w-full text-sm"
               />
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <div className="flex-1">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   GitHub havolasi
                 </label>
@@ -176,11 +147,10 @@ export const ProjectsSection = () => {
                     setNewProject({ ...newProject, githubLink: e.target.value })
                   }
                   placeholder="https://github.com/username/project"
-                  className="form-input"
+                  className="form-input w-full text-sm"
                 />
               </div>
-
-              <div>
+              <div className="flex-1">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Live Demo havolasi
                 </label>
@@ -193,25 +163,41 @@ export const ProjectsSection = () => {
                       liveDemoLink: e.target.value,
                     })
                   }
-                  placeholder="https://project-demo.com"
-                  className="form-input"
+                  placeholder="https://mycvbuilder.uz/"
+                  className="form-input w-full text-sm"
                 />
               </div>
             </div>
-
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2 mt-2">
               <button
+                className="btn-primary w-full text-sm py-2 px-3 min-h-10"
                 onClick={
-                  editingProject ? handleUpdateProject : handleAddProject
+                  editingProject
+                    ? handleUpdateProject
+                    : () => {
+                        if (
+                          newProject.name.trim() &&
+                          newProject.description.trim()
+                        ) {
+                          addProject({ ...newProject });
+                          setNewProject({
+                            name: "",
+                            description: "",
+                            techStack: "",
+                            githubLink: "",
+                            liveDemoLink: "",
+                          });
+                          setShowForm(false);
+                        }
+                      }
                 }
-                disabled={
-                  !newProject.name.trim() || !newProject.description.trim()
-                }
-                className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {editingProject ? "Yangilash" : "Qo'shish"}
               </button>
-              <button onClick={handleCancel} className="btn-secondary">
+              <button
+                className="btn-secondary w-full text-sm py-2 px-3 min-h-10"
+                onClick={handleCancel}
+              >
                 Bekor qilish
               </button>
             </div>
@@ -219,78 +205,63 @@ export const ProjectsSection = () => {
         </div>
       )}
 
-      {/* Projects list */}
-      <div className="space-y-4">
-        {data.projects.length === 0 ? (
-          <p className="text-gray-500 dark:text-gray-400 text-sm">
-            Hali loyiha qo'shilmagan
-          </p>
-        ) : (
-          data.projects.map((project, index) => (
-            <div
-              key={index}
-              className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-sm dark:hover:shadow-md transition-shadow bg-white dark:bg-gray-800"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h4 className="font-semibold text-gray-800 dark:text-gray-100">
-                  {project.name}
-                </h4>
-                <div className="flex items-center gap-1">
-                  <EditButton
-                    onClick={() => {
-                      setEditingProject({ index, project });
-                      setShowForm(true);
-                    }}
-                  >
-                    Tahrirlash
-                  </EditButton>
-                  <button
-                    onClick={() => removeProject(index)}
-                    className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 p-1"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
+      {/* Project list */}
+      <div className="flex flex-col gap-2">
+        {data.projects.map((proj, idx) => (
+          <div
+            key={idx}
+            className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 p-2 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-x-auto"
+          >
+            <div className="flex-1 min-w-0">
+              <div className="font-semibold text-gray-800 dark:text-gray-100 break-words">
+                {proj.name}
               </div>
-
-              <p className="text-gray-600 dark:text-gray-300 text-sm mb-2">
-                {project.description}
-              </p>
-
-              {project.techStack && (
-                <p className="text-gray-500 dark:text-gray-400 text-xs mb-2">
-                  <span className="font-medium">Texnologiyalar:</span>{" "}
-                  {project.techStack}
-                </p>
-              )}
-
-              <div className="flex gap-2">
-                {project.githubLink && (
+              <div className="text-sm text-gray-600 dark:text-gray-400 break-words">
+                {proj.description}
+              </div>
+              <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 flex flex-wrap gap-2">
+                {proj.techStack && <span>{proj.techStack}</span>}
+                {proj.githubLink && (
                   <a
-                    href={project.githubLink}
+                    href={proj.githubLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm"
+                    className="underline text-blue-600 dark:text-blue-400 break-all"
                   >
-                    <Github className="w-3 h-3" />
                     GitHub
                   </a>
                 )}
-                {project.liveDemoLink && (
+                {proj.liveDemoLink && (
                   <a
-                    href={project.liveDemoLink}
+                    href={proj.liveDemoLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 text-sm"
+                    className="underline text-green-600 dark:text-green-400 break-all"
                   >
-                    <ExternalLink className="w-3 h-3" />
-                    Demo
+                    Live Demo
                   </a>
                 )}
               </div>
             </div>
-          ))
-        )}
+            <div className="flex gap-1">
+              <EditButton
+                onClick={() => {
+                  setEditingProject({ index: idx, project: proj });
+                  setShowForm(true);
+                }}
+                size="sm"
+                className="w-8 h-8"
+              />
+              <button
+                onClick={() => removeProject(idx)}
+                className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 p-1 w-8 h-8"
+                aria-label="O'chirish"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -23,7 +23,7 @@ export const PersonalInfoSection = () => {
   };
 
   return (
-    <div className="card p-6 animate-fade-in">
+    <div className="card p-3 sm:p-6 animate-fade-in">
       <div className="flex items-center gap-2 mb-4">
         <User className="w-5 h-5 text-primary-600 dark:text-primary-400" />
         <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
@@ -33,8 +33,8 @@ export const PersonalInfoSection = () => {
 
       <div className="space-y-4">
         {/* Profile Photo */}
-        <div className="flex items-center gap-4">
-          <div className="relative">
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+          <div className="relative mb-2 sm:mb-0">
             {data.personalInfo.profilePhoto ? (
               <img
                 src={data.personalInfo.profilePhoto}
@@ -56,7 +56,7 @@ export const PersonalInfoSection = () => {
               />
             </label>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 w-full">
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
               Profil rasmi
             </p>
@@ -76,7 +76,7 @@ export const PersonalInfoSection = () => {
             value={data.personalInfo.fullName}
             onChange={(e) => handleInputChange("fullName", e.target.value)}
             placeholder="Masalan: Doniyor Karimov"
-            className="form-input"
+            className="form-input w-full text-sm"
             required
           />
         </div>
@@ -91,7 +91,7 @@ export const PersonalInfoSection = () => {
             value={data.personalInfo.title}
             onChange={(e) => handleInputChange("title", e.target.value)}
             placeholder="Masalan: Fullstack Developer"
-            className="form-input"
+            className="form-input w-full text-sm"
             required
           />
         </div>
@@ -108,7 +108,7 @@ export const PersonalInfoSection = () => {
               value={data.personalInfo.location}
               onChange={(e) => handleInputChange("location", e.target.value)}
               placeholder="Masalan: Tashkent, Uzbekistan"
-              className="form-input pl-10"
+              className="form-input pl-10 w-full text-sm"
               required
             />
           </div>
@@ -126,7 +126,7 @@ export const PersonalInfoSection = () => {
               value={data.personalInfo.phone}
               onChange={(e) => handleInputChange("phone", e.target.value)}
               placeholder="+998 90 123 45 67"
-              className="form-input pl-10"
+              className="form-input pl-10 w-full text-sm"
               required
             />
           </div>
@@ -144,7 +144,7 @@ export const PersonalInfoSection = () => {
               value={data.personalInfo.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
               placeholder="doniyor@example.com"
-              className="form-input pl-10"
+              className="form-input pl-10 w-full text-sm"
               required
             />
           </div>

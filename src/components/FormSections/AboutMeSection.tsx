@@ -5,7 +5,7 @@ export const AboutMeSection = () => {
   const { data, updateAboutMe } = useFormData();
 
   return (
-    <div className="card p-6 animate-fade-in">
+    <div className="card p-3 sm:p-6 animate-fade-in">
       <div className="flex items-center gap-2 mb-4">
         <FileText className="w-5 h-5 text-primary-600 dark:text-primary-400" />
         <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
@@ -21,11 +21,11 @@ export const AboutMeSection = () => {
           value={data.aboutMe}
           onChange={(e) => updateAboutMe(e.target.value)}
           placeholder="O'zingiz haqida qisqacha ma'lumot bering. Masalan: Tajribali Fullstack Developer bo'lib, React, Node.js va PostgreSQL bilan ishlayman..."
-          className="form-textarea h-32"
+          className="form-textarea w-full text-sm h-32 resize-none"
           maxLength={700}
           required
         />
-        <div className="flex justify-between items-center mt-2">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mt-2">
           <p className="text-xs text-gray-500 dark:text-gray-400">
             Bu ma'lumot CV'ingizning yuqori qismida ko'rsatiladi
           </p>

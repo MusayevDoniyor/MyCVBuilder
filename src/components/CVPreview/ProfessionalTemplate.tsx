@@ -9,7 +9,7 @@ import {
   Languages,
   Code,
   FolderOpen,
-  Building,
+  Briefcase,
 } from "lucide-react";
 
 interface ProfessionalTemplateProps {
@@ -75,14 +75,16 @@ export const ProfessionalTemplate = ({ data }: ProfessionalTemplateProps) => {
 
       {/* About Me */}
       {aboutMe && (
-        <div className="p-8 bg-gray-50 border-b border-gray-200">
+        <div className="p-3 sm:p-6 md:p-8 bg-gray-50 border-b border-gray-200">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-1 h-6 bg-green-600 rounded-full"></div>
             <h3 className="text-xl font-bold text-gray-900">
               Professional Summary
             </h3>
           </div>
-          <p className="text-gray-700 leading-relaxed">{aboutMe}</p>
+          <p className="text-gray-700 leading-relaxed break-words whitespace-pre-line overflow-hidden">
+            {aboutMe}
+          </p>
         </div>
       )}
 
@@ -137,7 +139,7 @@ export const ProfessionalTemplate = ({ data }: ProfessionalTemplateProps) => {
       {workExperience.length > 0 && (
         <div className="p-8 bg-gray-50">
           <div className="flex items-center gap-3 mb-6">
-            <Building className="w-5 h-5 text-green-600" />
+            <Briefcase className="w-5 h-5 text-green-600" />
             <h3 className="text-xl font-bold text-gray-900">
               Professional Experience
             </h3>

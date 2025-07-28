@@ -8,7 +8,6 @@ import {
   Globe,
   MessageCircle,
   Calendar,
-  Star,
 } from "lucide-react";
 
 interface ElegantTemplateProps {
@@ -110,16 +109,12 @@ export const ElegantTemplate = ({ data }: ElegantTemplateProps) => {
 
       {/* About Me */}
       {aboutMe && (
-        <div className="p-8 bg-gradient-to-r from-rose-50 to-pink-50">
-          <div className="text-center mb-6">
-            <div className="inline-flex items-center gap-2 mb-4">
-              <Star className="w-5 h-5 text-rose-500" />
-              <h3 className="text-2xl font-bold text-gray-900">About Me</h3>
-              <Star className="w-5 h-5 text-rose-500" />
-            </div>
-            <div className="w-24 h-1 bg-gradient-to-r from-rose-500 to-pink-500 mx-auto rounded-full"></div>
+        <div className="p-3 sm:p-6 md:p-8 bg-white">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-2 h-8 bg-gradient-to-b from-rose-500 to-pink-500 rounded-full"></div>
+            <h3 className="text-2xl font-bold text-gray-900">About Me</h3>
           </div>
-          <p className="text-gray-700 leading-relaxed text-center max-w-3xl mx-auto text-lg">
+          <p className="text-gray-700 leading-relaxed text-lg break-words whitespace-pre-line overflow-hidden">
             {aboutMe}
           </p>
         </div>

@@ -13,6 +13,7 @@ import {
   Shield,
   Palette,
 } from "lucide-react";
+import type { Skill } from "../../types";
 
 export const SkillsSection = () => {
   const { data, addSkill, removeSkill, updateSkill } = useFormData();
@@ -29,7 +30,7 @@ export const SkillsSection = () => {
   const [editingSkill, setEditingSkill] = useState<{
     index: number;
     name: string;
-    category: string;
+    category: Skill["category"];
   } | null>(null);
 
   const handleAddSkill = () => {
@@ -39,13 +40,7 @@ export const SkillsSection = () => {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleAddSkill();
-    }
-  };
-
-  const handleEditSkill = (skill: any, index: number) => {
+  const handleEditSkill = (skill: Skill, index: number) => {
     setEditingSkill({
       index,
       name: skill.name,
@@ -57,7 +52,7 @@ export const SkillsSection = () => {
     if (editingSkill && editingSkill.name.trim()) {
       updateSkill(editingSkill.index, {
         name: editingSkill.name.trim(),
-        category: editingSkill.category as any,
+        category: editingSkill.category,
       });
       setEditingSkill(null);
     }
@@ -82,28 +77,40 @@ export const SkillsSection = () => {
   ];
 
   return (
-    <div className="card p-6 animate-fade-in">
-      <div className="section-title">
-        <Code className="w-5 h-5 text-primary-600 dark:text-primary-400" />
-        <span>Ko'nikmalar</span>
+    <div className="card p-3 sm:p-6 animate-fade-in">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-4">
+        <div className="flex items-center gap-2">
+          <Code className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
+            Ko'nikmalar
+          </h3>
+        </div>
+        <AddButton
+          onClick={handleAddSkill}
+          disabled={!newSkill.trim()}
+          className="w-auto text-sm py-2 px-3 min-h-10"
+        >
+          Ko'nikma qo'shish
+        </AddButton>
       </div>
 
       {/* Add new skill */}
-      <div className="bg-gradient-to-r from-primary-50 to-blue-50 dark:from-gray-700 dark:to-gray-600 p-4 rounded-lg border border-primary-200 dark:border-gray-600 mb-6">
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-col md:flex-row gap-3">
+      <div className="bg-gradient-to-r from-primary-50 to-blue-50 dark:from-gray-700 dark:to-gray-600 p-2 sm:p-4 rounded-lg border border-primary-200 dark:border-gray-600 mb-6">
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <input
               type="text"
               value={newSkill}
               onChange={(e) => setNewSkill(e.target.value)}
-              onKeyPress={handleKeyPress}
               placeholder="Masalan: React, Node.js, Docker, Figma..."
-              className="form-input flex-1"
+              className="form-input w-full text-sm flex-1"
             />
             <select
               value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value as any)}
-              className="form-input w-full md:w-48"
+              onChange={(e) =>
+                setSelectedCategory(e.target.value as Skill["category"])
+              }
+              className="form-input w-full sm:w-48 text-sm"
             >
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.id}>
@@ -112,9 +119,6 @@ export const SkillsSection = () => {
               ))}
             </select>
           </div>
-          <AddButton onClick={handleAddSkill} disabled={!newSkill.trim()}>
-            Ko'nikma qo'shish
-          </AddButton>
         </div>
       </div>
 
@@ -169,7 +173,7 @@ export const SkillsSection = () => {
                             onChange={(e) =>
                               setEditingSkill({
                                 ...editingSkill,
-                                category: e.target.value,
+                                category: e.target.value as Skill["category"],
                               })
                             }
                             className="form-input text-sm w-32"
