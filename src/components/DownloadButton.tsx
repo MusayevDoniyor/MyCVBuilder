@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Download, CheckCircle, AlertCircle } from "lucide-react";
 import { LoadingSpinner } from "./Accessibility/LoadingSpinner";
 import { useAnalytics } from "../hooks/useAnalytics";
+import { applyPDFStyles } from "../utils/pdfStyles";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -38,22 +39,24 @@ export const DownloadButton = () => {
         htmlEl.style.display = "none";
       });
 
-      // Convert HTML to canvas with high quality settings
+      // Apply PDF-specific styles
+      const cleanupPDFStyles = applyPDFStyles(cvPreview);
+
+      // Convert HTML to canvas with improved settings
       const canvas = await html2canvas(cvPreview, {
-        scale: 3, // Even higher scale for better quality
+        scale: 2, // Balanced quality and performance
         useCORS: true,
         allowTaint: true,
         scrollX: 0,
         scrollY: 0,
         width: cvPreview.scrollWidth,
         height: cvPreview.scrollHeight,
-        backgroundColor: "#ffffff", // Ensure white background
-        logging: false, // Disable logging for production
-        imageTimeout: 15000, // 15 seconds timeout for images
-        removeContainer: true, // Remove temporary container
-        foreignObjectRendering: false, // Better compatibility
+        backgroundColor: "#ffffff",
+        logging: false,
+        imageTimeout: 15000,
+        removeContainer: true,
+        foreignObjectRendering: false,
         ignoreElements: (element) => {
-          // Ignore elements that shouldn't be in PDF
           const htmlEl = element as HTMLElement;
           return (
             element.classList.contains("no-print") ||
@@ -62,15 +65,38 @@ export const DownloadButton = () => {
           );
         },
         onclone: (clonedDoc) => {
-          // Ensure fonts are loaded in cloned document
           const clonedElement = clonedDoc.getElementById("cv-preview");
           if (clonedElement) {
-            // Force font loading
+            // Apply PDF-specific styles to cloned element
             clonedElement.style.fontFamily = "Inter, system-ui, sans-serif";
             clonedElement.style.fontSize = "14px";
+            clonedElement.style.lineHeight = "1.4";
+            clonedElement.style.wordBreak = "break-word";
+            clonedElement.style.overflow = "visible";
+
+            // Fix flexbox issues in PDF
+            const flexElements =
+              clonedElement.querySelectorAll('[class*="flex"]');
+            flexElements.forEach((el) => {
+              const htmlEl = el as HTMLElement;
+              htmlEl.style.display = "block";
+              htmlEl.style.width = "100%";
+            });
+
+            // Fix grid issues in PDF
+            const gridElements =
+              clonedElement.querySelectorAll('[class*="grid"]');
+            gridElements.forEach((el) => {
+              const htmlEl = el as HTMLElement;
+              htmlEl.style.display = "block";
+              htmlEl.style.width = "100%";
+            });
           }
         },
       });
+
+      // Restore PDF styles
+      cleanupPDFStyles();
 
       // Restore hidden elements
       elementsToHide.forEach((el, index) => {
@@ -78,7 +104,7 @@ export const DownloadButton = () => {
         htmlEl.style.display = originalDisplays[index];
       });
 
-      // Calculate PDF dimensions
+      // Calculate PDF dimensions with better page handling
       const imgWidth = 210; // A4 width in mm
       const pageHeight = 297; // A4 height in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
