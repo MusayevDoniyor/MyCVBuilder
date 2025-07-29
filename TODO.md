@@ -17,10 +17,10 @@
 
 ### 3. Analytics va Tracking
 
-- [ ] CV ko'rishlar soni
-- [ ] PDF download statistikasi
-- [ ] Template usage tracking
-- [ ] Analytics dashboard
+- [x] CV ko'rishlar soni
+- [x] PDF download statistikasi
+- [x] Template usage tracking
+- [x] Analytics dashboard
 
 ## 🔧 O'rta ustuvorlik
 

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Download, CheckCircle, AlertCircle } from "lucide-react";
 import { LoadingSpinner } from "./Accessibility/LoadingSpinner";
+import { useAnalytics } from "../hooks/useAnalytics";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
 export const DownloadButton = () => {
+  const { trackDownload } = useAnalytics();
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
@@ -127,6 +129,9 @@ export const DownloadButton = () => {
       const timestamp = new Date().toISOString().slice(0, 10);
       pdf.save(`my-cv-${timestamp}.pdf`);
 
+      // Track PDF download
+      trackDownload();
+
       setStatus("success");
       setTimeout(() => setStatus("idle"), 3000);
     } catch (error) {
@@ -176,7 +181,7 @@ export const DownloadButton = () => {
 
   const getButtonClasses = () => {
     const baseClasses =
-      "btn-primary flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed";
+      "btn-primary flex items-center gap-1 px-3 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed";
 
     if (status === "success") {
       return `${baseClasses} bg-green-600 hover:bg-green-700 focus:ring-green-500`;

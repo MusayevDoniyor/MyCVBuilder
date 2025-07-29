@@ -39,6 +39,8 @@ export const CreativeTemplate = ({ data }: CreativeTemplateProps) => {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
+      case "programming":
+        return "from-indigo-500 to-blue-500";
       case "frontend":
         return "from-blue-500 to-cyan-500";
       case "backend":
@@ -168,6 +170,7 @@ export const CreativeTemplate = ({ data }: CreativeTemplateProps) => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
+              "programming",
               "frontend",
               "backend",
               "mobile",

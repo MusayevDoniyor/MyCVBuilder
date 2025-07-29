@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useFormData } from "../../hooks/useFormData";
+import { useAnalytics } from "../../hooks/useAnalytics";
 import { ClassicTemplate } from "./ClassicTemplate";
 import { ModernTemplate } from "./ModernTemplate";
 import { MinimalTemplate } from "./MinimalTemplate";
@@ -8,6 +10,13 @@ import { ElegantTemplate } from "./ElegantTemplate";
 
 export const CVPreview = () => {
   const { data, template } = useFormData();
+  const { trackView, trackTemplate } = useAnalytics();
+
+  // CV ko'rishlarni kuzatish
+  useEffect(() => {
+    trackView();
+    trackTemplate(template);
+  }, [template, trackView, trackTemplate]);
 
   const renderTemplate = () => {
     switch (template) {

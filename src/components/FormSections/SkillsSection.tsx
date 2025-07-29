@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useFormData } from "../../hooks/useFormData";
 import { AddButton } from "../AddButton";
 import { EditButton } from "../EditButton";
+import { CustomSelect, type SelectOption } from "../UI/CustomSelect";
 import {
   Code,
   X,
@@ -19,6 +20,7 @@ export const SkillsSection = () => {
   const { data, addSkill, removeSkill, updateSkill } = useFormData();
   const [newSkill, setNewSkill] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<
+    | "programming"
     | "frontend"
     | "backend"
     | "mobile"
@@ -26,12 +28,18 @@ export const SkillsSection = () => {
     | "devops"
     | "design"
     | "others"
-  >("frontend");
+  >("programming");
   const [editingSkill, setEditingSkill] = useState<{
     index: number;
     name: string;
     category: Skill["category"];
   } | null>(null);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleAddSkill();
+    }
+  };
 
   const handleAddSkill = () => {
     if (newSkill.trim()) {
@@ -63,6 +71,11 @@ export const SkillsSection = () => {
   };
 
   const categories = [
+    {
+      id: "programming",
+      name: "Dasturlash tillari",
+      icon: <Code className="w-4 h-4" />,
+    },
     { id: "frontend", name: "Frontend", icon: <Globe className="w-4 h-4" /> },
     { id: "backend", name: "Backend", icon: <Server className="w-4 h-4" /> },
     { id: "mobile", name: "Mobile", icon: <Smartphone className="w-4 h-4" /> },
@@ -76,6 +89,11 @@ export const SkillsSection = () => {
     { id: "others", name: "Boshqalar", icon: <Sparkles className="w-4 h-4" /> },
   ];
 
+  const categoryOptions: SelectOption[] = categories.map((cat) => ({
+    value: cat.id,
+    label: cat.name,
+  }));
+
   return (
     <div className="card p-3 sm:p-6 animate-fade-in">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-4">
@@ -85,6 +103,7 @@ export const SkillsSection = () => {
             Ko'nikmalar
           </h3>
         </div>
+
         <AddButton
           onClick={handleAddSkill}
           disabled={!newSkill.trim()}
@@ -104,20 +123,18 @@ export const SkillsSection = () => {
               onChange={(e) => setNewSkill(e.target.value)}
               placeholder="Masalan: React, Node.js, Docker, Figma..."
               className="form-input w-full text-sm flex-1"
+              onKeyDown={handleKeyDown}
             />
-            <select
+            <CustomSelect
+              options={categoryOptions}
               value={selectedCategory}
-              onChange={(e) =>
-                setSelectedCategory(e.target.value as Skill["category"])
+              onChange={(value) =>
+                setSelectedCategory(value as Skill["category"])
               }
-              className="form-input w-full sm:w-48 text-sm"
-            >
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
+              placeholder="Kategoriya tanlang"
+              className="w-full sm:w-48"
+              size="sm"
+            />
           </div>
         </div>
       </div>
@@ -168,22 +185,19 @@ export const SkillsSection = () => {
                             className="flex-1 form-input text-sm"
                             autoFocus
                           />
-                          <select
+                          <CustomSelect
+                            options={categoryOptions}
                             value={editingSkill.category}
-                            onChange={(e) =>
+                            onChange={(value) =>
                               setEditingSkill({
                                 ...editingSkill,
-                                category: e.target.value as Skill["category"],
+                                category: value as Skill["category"],
                               })
                             }
-                            className="form-input text-sm w-32"
-                          >
-                            {categories.map((cat) => (
-                              <option key={cat.id} value={cat.id}>
-                                {cat.name}
-                              </option>
-                            ))}
-                          </select>
+                            placeholder="Kategoriya"
+                            className="w-32"
+                            size="sm"
+                          />
                           <div className="flex items-center gap-1">
                             <button
                               onClick={handleSaveEdit}

@@ -17,6 +17,7 @@ export interface Socials {
 export interface Skill {
   name: string;
   category:
+    | "programming"
     | "frontend"
     | "backend"
     | "mobile"

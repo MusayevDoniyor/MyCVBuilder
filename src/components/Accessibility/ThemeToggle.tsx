@@ -64,13 +64,13 @@ export const ThemeToggle = () => {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200"
+        className="flex items-center gap-1 px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200"
         aria-label="Tema o'zgartirish"
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
         {getThemeIcon()}
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+        <span className="hidden xl:inline text-sm font-medium text-gray-700 dark:text-gray-200">
           {getThemeLabel()}
         </span>
       </button>

@@ -59,7 +59,7 @@ export const ExportButton = ({ onSuccess, onError }: ExportButtonProps) => {
   };
 
   const getButtonClasses = () => {
-    return "btn-secondary flex items-center gap-2 relative";
+    return "btn-secondary flex items-center gap-1 px-3 py-2 text-sm relative";
   };
 
   return (

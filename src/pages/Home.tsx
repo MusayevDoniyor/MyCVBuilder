@@ -11,6 +11,7 @@ import { CVPreview } from "../components/CVPreview/CVPreview";
 import { TemplateSelector } from "../components/TemplateSelector";
 import { DownloadButton } from "../components/DownloadButton";
 import { ExportButton } from "../components/ExportImport/ExportImportButton";
+import { AnalyticsDashboard } from "../components/Analytics/AnalyticsDashboard";
 import { SkipToContent } from "../components/Accessibility/SkipToContent";
 import { ThemeToggle } from "../components/Accessibility/ThemeToggle";
 import { Toaster } from "../components/UI/Toaster";
@@ -72,14 +73,14 @@ export const Home = () => {
 
             {/* Desktop Navigation */}
             <nav
-              className="hidden md:flex items-center gap-4"
+              className="hidden lg:flex items-center gap-2"
               role="navigation"
               aria-label="Asosiy navigatsiya"
             >
               <ThemeToggle />
               <button
                 onClick={toggleViewMode}
-                className="btn-secondary flex items-center gap-2"
+                className="btn-secondary flex items-center gap-1 px-3 py-2 text-sm"
                 aria-label={
                   viewMode === "form" ? "Preview ko'rish" : "Formaga qaytish"
                 }
@@ -87,31 +88,32 @@ export const Home = () => {
                 {viewMode === "form" ? (
                   <>
                     <Eye className="w-4 h-4" />
-                    <span className="hidden sm:inline">Preview</span>
+                    <span className="hidden xl:inline">Preview</span>
                   </>
                 ) : (
                   <>
                     <Edit3 className="w-4 h-4" />
-                    <span className="hidden sm:inline">Forma</span>
+                    <span className="hidden xl:inline">Forma</span>
                   </>
                 )}
               </button>
               <button
                 onClick={handleReset}
-                className="btn-secondary flex items-center gap-2"
+                className="btn-secondary flex items-center gap-1 px-3 py-2 text-sm"
                 aria-label="Barcha ma'lumotlarni tozalash"
               >
                 <RotateCcw className="w-4 h-4" />
-                <span className="hidden sm:inline">Tozalash</span>
+                <span className="hidden xl:inline">Tozalash</span>
               </button>
               <ExportButton onSuccess={showSuccess} onError={showError} />
+              <AnalyticsDashboard />
               <DownloadButton />
             </nav>
 
             {/* Mobile menu button */}
             <button
               onClick={toggleMobileMenu}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
+              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
               aria-label="Menyuni ochish"
               aria-expanded={isMobileMenuOpen}
             >
@@ -126,7 +128,7 @@ export const Home = () => {
           {/* Mobile Navigation */}
           {isMobileMenuOpen && (
             <nav
-              className="md:hidden py-4 border-t border-gray-200 dark:border-gray-700"
+              className="lg:hidden py-4 border-t border-gray-200 dark:border-gray-700"
               role="navigation"
               aria-label="Mobil navigatsiya"
             >
@@ -160,6 +162,7 @@ export const Home = () => {
                   Tozalash
                 </button>
                 <ExportButton onSuccess={showSuccess} onError={showError} />
+                <AnalyticsDashboard />
                 <DownloadButton />
               </div>
             </nav>
@@ -208,17 +211,20 @@ export const Home = () => {
         ) : (
           /* Full Screen Preview */
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <div className="card p-4">
+            <div className="flex flex-col gap-4 items-center">
+              <div className="card p-4 w-full flex flex-col gap-2 items-center">
                 <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">
                   CV Preview
                 </h2>
+
                 <p className="text-gray-600 dark:text-gray-400">
                   To'liq ko'rinishda CV'ingizni ko'ring
                 </p>
               </div>
+
               <TemplateSelector />
             </div>
+
             <div className="w-full">
               <CVPreview />
             </div>

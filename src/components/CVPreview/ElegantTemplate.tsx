@@ -129,6 +129,7 @@ export const ElegantTemplate = ({ data }: ElegantTemplateProps) => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
+              "programming",
               "frontend",
               "backend",
               "mobile",

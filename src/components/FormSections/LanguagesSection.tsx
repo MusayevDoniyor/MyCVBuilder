@@ -3,6 +3,7 @@ import { useFormData } from "../../hooks/useFormData";
 import { AddButton } from "../AddButton";
 import { X, Globe } from "lucide-react";
 import { EditButton } from "../EditButton";
+import { CustomSelect, type SelectOption } from "../UI/CustomSelect";
 import type { Language } from "../../types";
 
 export const LanguagesSection = () => {
@@ -16,6 +17,13 @@ export const LanguagesSection = () => {
     index: number;
     language: Language;
   } | null>(null);
+
+  const proficiencyOptions: SelectOption[] = [
+    { value: "Beginner", label: "Boshlang'ich" },
+    { value: "Intermediate", label: "O'rta" },
+    { value: "Advanced", label: "Yuqori" },
+    { value: "Fluent", label: "Erkin" },
+  ];
 
   const getProficiencyColor = (proficiency: string) => {
     switch (proficiency) {
@@ -102,22 +110,19 @@ export const LanguagesSection = () => {
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Daraja *
               </label>
-              <select
+              <CustomSelect
+                options={proficiencyOptions}
                 value={newLanguage.proficiency}
-                onChange={(e) =>
+                onChange={(value) =>
                   setNewLanguage({
                     ...newLanguage,
-                    proficiency: e.target.value as Language["proficiency"],
+                    proficiency: value as Language["proficiency"],
                   })
                 }
-                className="form-input w-full text-sm"
-                required
-              >
-                <option value="Beginner">Boshlang'ich</option>
-                <option value="Intermediate">O'rta</option>
-                <option value="Advanced">Yuqori</option>
-                <option value="Fluent">Erkin</option>
-              </select>
+                placeholder="Daraja tanlang"
+                className="w-full"
+                size="sm"
+              />
             </div>
             <div className="flex flex-col sm:flex-row gap-2 mt-2">
               <button

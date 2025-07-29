@@ -73,7 +73,7 @@ export const TemplateSelector = () => {
   };
 
   return (
-    <div className="card p-6 animate-fade-in">
+    <div className="card p-6 animate-fade-in w-full">
       <div className="section-title">
         <Palette className="w-5 h-5 text-primary-600 dark:text-primary-400" />
         <span>Shablon tanlash</span>
