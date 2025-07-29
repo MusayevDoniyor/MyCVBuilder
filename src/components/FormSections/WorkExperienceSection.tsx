@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useFormData } from "../../hooks/useFormData";
 import { AddButton } from "../AddButton";
 import { EditButton } from "../EditButton";
+import { CustomDatePicker } from "../UI/CustomDatePicker";
 import { Briefcase, X } from "lucide-react";
 import type { CVData } from "../../types";
 
@@ -139,32 +140,34 @@ export const WorkExperienceSection = () => {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Boshlanish sanasi
                 </label>
-                <input
-                  type="month"
+                <CustomDatePicker
                   value={newExperience.startDate}
-                  onChange={(e) =>
+                  onChange={(date) =>
                     setNewExperience({
                       ...newExperience,
-                      startDate: e.target.value,
+                      startDate: date,
                     })
                   }
-                  className="form-input w-full text-sm"
+                  placeholder="Boshlanish sanasi"
+                  className="w-full"
+                  size="sm"
                 />
               </div>
               <div className="flex-1">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Tugash sanasi
                 </label>
-                <input
-                  type="month"
+                <CustomDatePicker
                   value={newExperience.endDate}
-                  onChange={(e) =>
+                  onChange={(date) =>
                     setNewExperience({
                       ...newExperience,
-                      endDate: e.target.value,
+                      endDate: date,
                     })
                   }
-                  className="form-input w-full text-sm"
+                  placeholder="Tugash sanasi (ixtiyoriy)"
+                  className="w-full"
+                  size="sm"
                 />
               </div>
             </div>
